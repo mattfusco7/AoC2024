@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "day1": "node src/day1/script.js",
-    "day2": "node src/day2/script.js"
+    "day2": "node src/day2/script.js",
+    "day3": "node src/day3/script.js",
+    "day4": "node src/day4/script.js"
   },
   "repository": {
     "type": "git",
