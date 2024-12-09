@@ -16,6 +16,20 @@ const checkOrdering = (earlierNums, laterNums, listToCheck) => {
   return true;
 }
 
+const fixOrdering = (earlierNums, laterNums, listToFix) => {
+  for(let i = 0; i < earlierNums.length; i++) {
+    if (listToFix.includes(earlierNums[i]) && listToFix.includes(laterNums[i])){
+      const earlierIndex = listToFix.indexOf(earlierNums[i])
+      const laterIndex = listToFix.indexOf(laterNums[i])
+      if (earlierIndex > laterIndex) {
+        [listToFix[laterIndex], listToFix[earlierIndex]] = [listToFix[earlierIndex], listToFix[laterIndex]]
+        return fixOrdering(earlierNums, laterNums, listToFix)
+      }
+    }
+  }
+  return listToFix
+}
+
 
 export const question = async () => {
   const lines = await readFileLines(`${ROOT_DIR_2024}/day5/input.txt`);
@@ -34,10 +48,6 @@ export const question = async () => {
     }
   });
 
-  // console.log(earlierValues)
-  // console.log(laterValues)
-  // console.log(linesToCheck)
-
   const trueLists = []
   const falseLists = []
   linesToCheck.forEach(listToCheck => {
@@ -54,8 +64,20 @@ export const question = async () => {
     count += trueList[index]
   })
 
+  const fixedLists = []
+  falseLists.forEach(falseList => {
+    const fixedList = fixOrdering(earlierValues, laterValues, falseList)
+    fixedLists.push(fixedList)
+  })
+
+  let count2 = 0
+  fixedLists.forEach(fixedList => {
+    const index = Math.floor(fixedList.length/2)
+    count2 += fixedList[index]
+  })
+
   console.log("Answer to part 1: ", count)
-  console.log("Answer to part 2: ",)
+  console.log("Answer to part 2: ", count2)
 
   return Promise.resolve();
 };
